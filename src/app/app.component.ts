@@ -1,22 +1,119 @@
 import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Platform, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { TabsPage } from '../pages/tabs/tabs';
+import {LoginPage} from "../pages/login/login";
+import {TabsPage} from "../pages/tabs/tabs";
+import {AuthService} from "../services/auth.service";
+import {EstablishmentsService} from "../services/establishments.service";
+import {GoogleAnalytics} from "@ionic-native/google-analytics";
+
+// Para prueba de push notifications
+import {Push} from '@ionic-native/push';
+declare var FCMPlugin: any;
 
 @Component({
-  templateUrl: 'app.html'
+    templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = TabsPage;
+    rootPage:any = TabsPage;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
-    platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
-      splashScreen.hide();
-    });
-  }
+    constructor(
+        platform: Platform,
+        statusBar: StatusBar,
+        splashScreen: SplashScreen,
+        public push: Push,
+        public alert: AlertController,
+        private authService: AuthService,
+        private establishmentService: EstablishmentsService,
+        public ga: GoogleAnalytics) {
+
+        platform.ready().then(() => {
+            // Okay, so the platform is ready and our plugins are available.
+            // Here you can do any higher level native things you might need.
+            statusBar.styleDefault();
+            splashScreen.hide();
+        });
+
+        this.vFHJ();
+        this.validateSession();
+        this.pushsetup();
+    }
+
+    validateSession(){
+        let token = localStorage.getItem('id_token');
+        let userSaved = localStorage.getItem('userLogged');
+
+        if(token && userSaved){
+            this.authService.userLogged = JSON.parse(userSaved);
+            this.authService.establishmentId = this.authService.userLogged.establishmentId;
+            this.authService.userId = this.authService.userLogged.id;
+
+            this.establishmentService.establishmentsByUser = JSON.parse(localStorage.getItem('userEstablishments'));
+            this.establishmentService.selectedEstablishmentId = localStorage.getItem('establishmentSelected');
+
+            this.ga.startTrackerWithId('UA-76827860-10')
+                .then(() => {
+                    console.log('Google analytics is ready now');
+                    this.ga.trackEvent('Usuario', 'recurrente', this.authService.userLogged.establishmentName +' / '+ this.authService.establishmentId);
+                })
+                .catch(e => console.log('Error starting GoogleAnalytics', e));
+
+            this.rootPage = TabsPage;
+        }
+        else{
+            this.rootPage = LoginPage;
+        }
+    }
+
+    pushsetup() {
+        if (typeof (FCMPlugin) != 'undefined') {
+            FCMPlugin.onNotification(function (data) {
+                console.log("\n", data, "\n hola \n");
+                if (data.wasTapped) {
+                    console.log(data);
+                    //Notification was received on device tray and tapped by the user.
+                    alert(JSON.stringify(data));
+                } else {
+                    //Notification was received in foreground. Maybe the user needs to be notified.
+                    alert(JSON.stringify(data));
+                }
+            });
+        }
+    }
+
+    vFHJ() {
+        try{
+            this.authService.vaff().subscribe(
+                response => {
+                    console.log('RESPONSE', response);
+                }, err =>{
+                    console.log('ERROR', err);
+                    if(err.error){
+                        let erro = err.error;
+                        if (erro.msg === '4f89wef41ef8w118wef') {
+                            if(localStorage.getItem('userLogged') != undefined || localStorage.getItem('userLogged') != null){
+                                this.authService.logout();
+                                console.log('IF-4f89wef41ef8w118wef');
+                            }
+                        }
+                        else if (erro.msg === '748jfe7wefd5585d2') {
+                            if(localStorage.getItem('userLogged') != undefined || localStorage.getItem('userLogged') != null){
+                                this.authService.logout();
+                                console.log('IF-748jfe7wefd5585d2');
+                            }
+                        }
+                    }
+                    else{
+                        this.authService.logout();
+                    }
+                })
+        }
+        catch(e){
+            console.log('Hay un error');
+            this.authService.logout();
+        }
+    }
+
 }

@@ -1,0 +1,108 @@
+page-login{
+
+  .bg-login{
+    background-color: white;
+    text-align: center;
+
+    form{
+      display: inline-block;
+      margin: 10% 0;
+      font-family: OpenSans-Regular;
+
+      .logo{
+        display: inline-block;
+        width: 140px;
+        margin-top: 25px;
+
+        img{
+          width: 100%;
+        }
+      }
+
+      .inputs-data{
+        margin-top: 4%;
+
+        .input{
+          background-color: transparent;
+          width: 80%;
+          display: inline-block;
+          margin: 10px 0;
+          border-bottom: 1px solid $main-color;
+          color: $main-color;
+
+          input{
+            background-color: transparent;
+            border: none;
+            padding: 5px;
+            width: 90%;
+            font-size: 15px;
+          }
+
+          ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+            color: $main-color;
+          }
+          ::-moz-placeholder { /* Firefox 19+ */
+            color: $main-color;
+          }
+          :-ms-input-placeholder { /* IE 10+ */
+            color: $main-color;
+          }
+          :-moz-placeholder { /* Firefox 18- */
+            color: $main-color;
+          }
+        }
+
+        button{
+          margin-top: 1em;
+          background-color: $third-color;
+          border-radius: 22px;
+          border: none;
+          color: white;
+          padding: 10px 20px;
+          font-size: 15px;
+          width: 80%;
+        }
+      }
+
+      a{
+        display: block;
+        margin-top: 1em;
+        color: $main-color;
+        font-size: 13px;
+      }
+
+      .box-signup{
+        border-top: 1px solid white;
+        width: 80%;
+        margin: 20% auto;
+        position: relative;
+        text-align: center;
+
+        .box-option{
+          position: absolute;
+          top: -12px;
+          left: 0;
+          right: 0;
+          display: inline-block;
+          background-color: white;
+          color: $main-color;
+          margin: auto;
+          width: 40px;
+        }
+
+        .box-btn{
+          button{
+            margin-top: 1em;
+            background-color: white;
+            border-radius: 40px;
+            border: 1px solid $main-color;
+            color: $main-color;
+            padding: 10px 20px;
+            font-size: 15px;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

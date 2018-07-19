@@ -3,38 +3,177 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
-import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
-import { HomePage } from '../pages/home/home';
-import { TabsPage } from '../pages/tabs/tabs';
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+/*Views*/
+import { LoginPage } from "../pages/login/login";
+import { OnboardingPage } from "../pages/onboarding/onboarding";
+import { SignupPage } from "../pages/signup/signup";
+import { SearcherPage } from "../pages/searcher/searcher";
+import { CentersPreviewPage } from "../pages/centers-preview/centers-preview";
+import { TabsPage } from '../pages/tabs/tabs';
+import { SchedulePage } from "../pages/schedule/schedule";
+import { ShopPage } from "../pages/shop/shop";
+import { HomePage } from '../pages/home/home';
+import { ManagmentPage } from "../pages/managment/managment";
+import { NotificationsPage } from '../pages/notifications/notifications';
+import { LessonDetailPage } from "../pages/lesson-detail/lesson-detail";
+import { PlanDetailPage } from "../pages/plan-detail/plan-detail";
+import { ProductDetailPage } from "../pages/product-detail/product-detail";
+import { FormPersonalDataPage } from "../pages/form-personal-data/form-personal-data";
+import { FormCardDataPage } from "../pages/form-card-data/form-card-data";
+import { PhysicalProgressPage } from "../pages/physical-progress/physical-progress";
+import { ProgressDetailPage } from "../pages/progress-detail/progress-detail";
+import { MembershipsPage } from "../pages/memberships/memberships";
+import { MembershipDetailPage } from "../pages/membership-detail/membership-detail";
+import { MembershipPaymentsPage } from "../pages/membership-payments/membership-payments";
+import { MembershipFreezesPage } from "../pages/membership-freezes/membership-freezes";
+import { MembershipAttendancesPage } from "../pages/membership-attendances/membership-attendances";
+import { ReservesPage } from "../pages/reserves/reserves";
+import { UnpaidsPage } from "../pages/unpaids/unpaids";
+import { ReserveDetailPage } from "../pages/reserve-detail/reserve-detail";
+import { ProductsPage } from "../pages/products/products";
+import { DebtsPage } from "../pages/debts/debts";
+import { ProfilePage } from "../pages/profile/profile";
+import { EditProfilePage } from "../pages/edit-profile/edit-profile";
+import { SettingsPage } from "../pages/settings/settings";
+import { PasswordPage } from "../pages/password/password";
+
+/*Services*/
+import { AppService } from "../services/app.service";
+import { AuthService } from "../services/auth.service";
+import { LessonsService } from "../services/lessons.service";
+import { ReservesService } from "../services/reserves.service";
+import { PlansService } from "../services/plans.service";
+import { DisciplinesService } from "../services/disciplines.service";
+import { PersonalService } from "../services/personal.service";
+import { RoomsService } from "../services/rooms.service";
+import { CulqiService } from "../services/culqi.service";
+import { ProgressService } from "../services/progress.service";
+import { UserService } from "../services/user.service";
+import { MembershipsService } from "../services/memberships.service";
+import { AttendancesService } from "../services/attendances.service";
+import { PaymentsService } from "../services/payments.service";
+import { FreezesService } from "../services/freezes.service";
+import { ProductsService } from "../services/products.service";
+import { DebtsService } from "../services/debts.service";
+import { EstablishmentsService } from "../services/establishments.service";
+import { NotificationsService } from "../services/notifications.service";
+
+/*Tools*/
+import { HttpClientModule} from "@angular/common/http";
+import { ChartsModule } from 'ng2-charts';
+import { Push } from '@ionic-native/push';
+import { Camera } from '@ionic-native/camera';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+
 @NgModule({
-  declarations: [
-    MyApp,
-    AboutPage,
-    ContactPage,
-    HomePage,
-    TabsPage
-  ],
-  imports: [
-    BrowserModule,
-    IonicModule.forRoot(MyApp)
-  ],
-  bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    AboutPage,
-    ContactPage,
-    HomePage,
-    TabsPage
-  ],
-  providers: [
-    StatusBar,
-    SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
-  ]
+    declarations: [
+        MyApp,
+        LoginPage,
+        OnboardingPage,
+        CentersPreviewPage,
+        SchedulePage,
+        ShopPage,
+        ManagmentPage,
+        NotificationsPage,
+        MembershipsPage,
+        ReservesPage,
+        UnpaidsPage,
+        ProductsPage,
+        DebtsPage,
+        MembershipDetailPage,
+        MembershipPaymentsPage,
+        MembershipAttendancesPage,
+        MembershipFreezesPage,
+        ReserveDetailPage,
+        LessonDetailPage,
+        PlanDetailPage,
+        ProductDetailPage,
+        FormPersonalDataPage,
+        FormCardDataPage,
+        PhysicalProgressPage,
+        ProgressDetailPage,
+        SettingsPage,
+        ProfilePage,
+        EditProfilePage,
+        PasswordPage,
+        SearcherPage,
+        SignupPage,
+        HomePage,
+        TabsPage
+    ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        ChartsModule,
+        IonicModule.forRoot(MyApp)
+    ],
+    bootstrap: [IonicApp],
+    entryComponents: [
+        MyApp,
+        LoginPage,
+        OnboardingPage,
+        CentersPreviewPage,
+        SchedulePage,
+        ShopPage,
+        ManagmentPage,
+        NotificationsPage,
+        MembershipsPage,
+        ReservesPage,
+        UnpaidsPage,
+        ProductsPage,
+        DebtsPage,
+        MembershipDetailPage,
+        MembershipPaymentsPage,
+        MembershipAttendancesPage,
+        MembershipFreezesPage,
+        ReserveDetailPage,
+        LessonDetailPage,
+        PlanDetailPage,
+        ProductDetailPage,
+        FormPersonalDataPage,
+        FormCardDataPage,
+        PhysicalProgressPage,
+        ProgressDetailPage,
+        SettingsPage,
+        ProfilePage,
+        EditProfilePage,
+        PasswordPage,
+        SearcherPage,
+        SignupPage,
+        HomePage,
+        TabsPage
+    ],
+    providers: [
+        StatusBar,
+        SplashScreen,
+        Push,
+        Camera,
+        GoogleAnalytics,
+        LocalNotifications,
+        AppService,
+        AuthService,
+        LessonsService,
+        ReservesService,
+        PlansService,
+        DisciplinesService,
+        PersonalService,
+        RoomsService,
+        CulqiService,
+        ProgressService,
+        UserService,
+        MembershipsService,
+        AttendancesService,
+        PaymentsService,
+        FreezesService,
+        ProductsService,
+        DebtsService,
+        EstablishmentsService,
+        NotificationsService,
+        {provide: ErrorHandler, useClass: IonicErrorHandler}
+    ]
 })
 export class AppModule {}

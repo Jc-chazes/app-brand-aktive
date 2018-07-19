@@ -1,0 +1,49 @@
+page-reserve-detail{
+
+  .grid{
+    padding: 0;
+  }
+
+  .reserve-card{
+    width: 85%;
+    padding: 5%;
+    margin: 10px auto;
+    box-shadow: 0 2px 1px 0px rgba(0, 0, 0, 0.1), 0 0 0 0 rgba(0, 0, 0, 0.08);
+    color: #646464;
+
+    .reserve-title{
+      p{
+        font-family: OpenSans-Bold;
+        margin: 0;
+      }
+    }
+
+    .reserve-detail {
+      p {
+        font-family: OpenSans-Regular;
+        margin: 5px 0;
+        font-size: 12px;
+      }
+    }
+  }
+
+  .btn-delete{
+    width: 100%;
+    margin: 25px 0;
+    text-align: center;
+
+    button{
+      background-color: transparent;
+      color: $alert-color;
+      padding: 8px 5px;;
+      font-family: OpenSans-Bold;
+      font-size: 10px;
+
+      img{
+        width: 15px;
+        vertical-align: sub;
+      }
+    }
+  }
+
+}

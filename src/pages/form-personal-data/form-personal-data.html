@@ -1,0 +1,50 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title></ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+    <ion-grid *ngIf="user">
+        <div class="div-title">
+            <p>Completa los datos de tu tarjeta</p>
+        </div>
+        <div>
+            <p class="text-subtitle">DATOS SOBRE TI</p>
+            <form (submit)="showFormCardData()">
+                <div class="dos-inputs">
+                    <div class="input">
+                        <input type="text" name="nombre" placeholder="Nombre" [(ngModel)]="user.name">
+                    </div>
+                    <div class="input">
+                        <input type="text" name="apellido" placeholder="Apellido" [(ngModel)]="user.lastName">
+                    </div>
+                </div>
+                <div class="un-input">
+                    <div class="div-input">
+                        <input type="text" name="email" placeholder="Correo Electrónico" [(ngModel)]="user.email">
+                    </div>
+                </div>
+                <div class="un-input">
+                    <div class="div-input">
+                        <input type="text" name="numero" placeholder="Número de celular" [(ngModel)]="user.celPhone">
+                    </div>
+                </div>
+                <div class="un-input">
+                    <div class="div-input">
+                        <input type="text" name="direccion" placeholder="Dirección" [(ngModel)]="user.address">
+                    </div>
+                </div>
+                <div class="un-input">
+                    <div class="div-input">
+                        <input type="text" name="ciudad" placeholder="Ciudad" [(ngModel)]="user.city">
+                    </div>
+                </div>
+                <div class="div-boton">
+                    <button type="submit">CONTINUAR</button>
+                </div>
+            </form>
+        </div>
+    </ion-grid>
+</ion-content>

@@ -1,0 +1,57 @@
+import {Component} from '@angular/core';
+import {App, NavController, AlertController} from 'ionic-angular';
+import {AuthService} from "../../services/auth.service";
+import {LoginPage} from "../login/login";
+import {PasswordPage} from "../password/password";
+import {GoogleAnalytics} from '@ionic-native/google-analytics';
+
+@Component({
+    selector: 'page-settings',
+    templateUrl: 'settings.html'
+})
+export class SettingsPage {
+
+    constructor(
+        public app : App,
+        public navCtrl: NavController,
+        public alertCtrl: AlertController,
+        private authService: AuthService,
+        public ga: GoogleAnalytics) {
+
+        this.ga.startTrackerWithId('UA-76827860-10')
+            .then(() => {
+                console.log('Google analytics is ready now');
+                this.ga.trackView('settingsPage');
+            })
+            .catch(e => console.log('Error starting GoogleAnalytics', e));
+
+    }
+
+    goToPassword(){
+        this.navCtrl.push(PasswordPage);
+    }
+
+    logout(){
+        let alert = this.alertCtrl.create({
+            title: 'Cerrar Sesión',
+            message: '¿Estás seguro que deseas cerrar sesión?',
+            buttons: [
+                {
+                    text: 'Cancelar',
+                    role: 'cancel',
+                    handler: () => {
+                    }
+                },
+                {
+                    text: 'Aceptar',
+                    handler: () => {
+                        this.authService.logout();
+                        this.app.getRootNav().setRoot(LoginPage);
+                    }
+                }
+            ]
+        });
+        alert.present();
+    }
+
+}

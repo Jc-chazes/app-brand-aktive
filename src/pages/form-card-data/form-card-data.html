@@ -1,0 +1,41 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title></ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <form (submit)="startPayment()" *ngIf="plan">
+            <div class="name-plan">
+                <p>Quiero comprar el plan <strong>{{plan.name}}</strong></p>
+            </div>
+            <p class="text-subtitle">DATOS SOBRE TU TARJETA</p>
+            <div class="un-input">
+                <div class="div-input">
+                    <input type="text" name="numero" placeholder="Número de tarjeta" [(ngModel)]="card.number">
+                </div>
+            </div>
+            <div class="dos-inputs" *ngIf="!usePayU">
+                <div class="inpu">
+                    <input type="text" name="expdate" placeholder="MM/AAAA" [(ngModel)]="card.expDate">
+                </div>
+                <div class="inpu">
+                    <input type="text" name="cvv" placeholder="CVV" [(ngModel)]="card.cvv">
+                </div>
+            </div>
+            <div class="dos-inputs" *ngIf="usePayU">
+                <div class="inpu">
+                    <input type="text" name="expdate" placeholder="AAAA/MM" [(ngModel)]="card.expDate">
+                </div>
+                <div class="inpu">
+                    <input type="text" name="cvv" placeholder="CVV" [(ngModel)]="card.cvv">
+                </div>
+            </div>
+            <div class="div-boton">
+                <button type="submit">PAGAR $ {{plan.price}}</button>
+            </div>
+        </form>
+    </ion-grid>
+</ion-content>

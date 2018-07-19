@@ -59,7 +59,7 @@
       "cordova-plugin-google-analytics": {},
       "cordova-plugin-local-notification": {},
       "cordova-plugin-ionic": {
-        "APP_ID": "0742d353",
+        "APP_ID": "7fac37ee",
         "CHANNEL_NAME": "Production",
         "UPDATE_METHOD": "auto"
       },

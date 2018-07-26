@@ -409,23 +409,29 @@ export class SchedulePage {
     }
 
     getRequirements(){
+        this.selectDisciplines = [];
+        this.selectInstructors = [];
+        this.selectRooms = [];
+
         this.disciplinesService.getDisciplines()
             .subscribe(
                 response => {
-                    this.selectDisciplines = response;
+                    for(let i of response){
+                        if(i.status == '1'){
+                            this.selectDisciplines.push(i);
+                        }
+                    }
                 }
             );
 
         this.personalService.getPersonal()
             .subscribe(
                 response => {
-                    let arr = [];
                     for(let i of response){
-                        if(i.roleId == 4){
-                            arr.push(i);
+                        if(i.status == '1'){
+                            this.selectInstructors.push(i);
                         }
                     }
-                    this.selectInstructors = arr;
                 }
             );
 

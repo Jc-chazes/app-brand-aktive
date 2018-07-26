@@ -114,7 +114,7 @@
                 <select name="instructor" id="instructor" [(ngModel)]="instructorIdSelected">
                     <option value="">Todos los instructores</option>
                     <option *ngFor="let instructor of selectInstructors"
-                            [ngValue]="instructor.id">{{instructor.name}}
+                            [ngValue]="instructor.id">{{instructor.name + ' ' + instructor.lastName}}
                     </option>
                 </select>
             </div>

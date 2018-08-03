@@ -380,7 +380,7 @@ export class SchedulePage {
         };
 
         this.reservesService.createMultipleReserves(data, lesson.id).subscribe(
-            success => {
+            (success: any) => {
                 this.loading.dismiss();
                 if (success.length > 0) {
                     this.successReserve('¡HURRA!', 'Tus reservas se realizaron satisfactoriamente');

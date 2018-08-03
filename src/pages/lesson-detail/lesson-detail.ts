@@ -178,7 +178,7 @@ export class LessonDetailPage {
         };
 
         this.reservesService.createMultipleReserves(data, lesson.id).subscribe(
-            success => {
+            (success: any) => {
                 this.loading.dismiss();
                 if (success.length > 0) {
                     this.successReserve('¡HURRA!', 'Tus reservas se realizaron satisfactoriamente');
@@ -212,7 +212,7 @@ export class LessonDetailPage {
                 this.loading.dismiss();
                 let alert = this.alertCtrl.create({
                     title:
-                    `<img src="assets/images/sad-face.png" class="icon-booking"><h6 class="title-booking">` + 'Uyyy' + `</h6>`,
+                    `<img src="assets/images/sad-face.png" class="icon-booking"> <h6 class="title-booking">` + 'Uyyy' + `</h6>`,
                     message: 'No se pudieron crear las reservas',
                     buttons: ['OK']
                 });

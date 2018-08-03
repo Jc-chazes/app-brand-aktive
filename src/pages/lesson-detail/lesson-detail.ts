@@ -5,6 +5,7 @@ import {LessonsService} from "../../services/lessons.service";
 import {ReservesService} from "../../services/reserves.service";
 import {GoogleAnalytics} from "@ionic-native/google-analytics";
 import {AuthService} from "../../services/auth.service";
+import * as moment from 'moment';
 
 @Component({
     selector: 'page-lesson-detail',
@@ -44,9 +45,51 @@ export class LessonDetailPage {
             message: messageAlert,
             buttons: [
                 {
+                    text: 'RESERVA RECURRENTE',
+                    handler: () => {
+                        this.showMultipleReserveAlert(lesson);
+                    }
+                },
+                {
                     text: 'CONFIRMAR',
                     handler: () => {
                         this.doSimpleReserve(lesson);
+                    }
+                }
+            ]
+        });
+        alert.present();
+    }
+
+    showMultipleReserveAlert(lesson) {
+        let numberDay = moment(lesson.date, 'DD/MM/YYYY').day();
+        let arrDays = ['domingos', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sábados'];
+
+        let alert = this.alertCtrl.create({
+            title: `<img src="assets/images/booking.png" class="icon-booking">`,
+            message:
+            'Elige cuantas sesiones deseas reservar en la clase de ' +
+            lesson.disciplineName +
+            ' los ' +
+            arrDays[numberDay] +
+            ' a las ' +
+            lesson.start,
+            inputs: [
+                {
+                    name: 'cantSessions',
+                    placeholder: 'N° Sesiones',
+                    type: 'number'
+                }
+            ],
+            buttons: [
+                { text: 'Cancelar' },
+                {
+                    text: 'Confirmar',
+                    handler: data => {
+                        let info = {
+                            sessions: data.cantSessions
+                        };
+                        this.doMultipleReserve(info, lesson);
                     }
                 }
             ]
@@ -117,6 +160,65 @@ export class LessonDetailPage {
                     alert.present();
                 }
             );
+    }
+
+    doMultipleReserve(info, lesson) {
+        this.showLoading();
+
+        let hour = moment(lesson.start, 'hh:mm a').format('HH:mm:ss');
+        let start = moment(lesson.date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
+        let data = {
+            time: hour,
+            startDate: start,
+            endDate: null,
+            sessions: info.sessions,
+            userEstablishment: this.authService.userId,
+            lessonId: lesson.lessonId
+        };
+
+        this.reservesService.createMultipleReserves(data, lesson.id).subscribe(
+            success => {
+                this.loading.dismiss();
+                if (success.length > 0) {
+                    this.successReserve('¡HURRA!', 'Tus reservas se realizaron satisfactoriamente');
+
+                    this.ga
+                        .startTrackerWithId('UA-76827860-8')
+                        .then(() => {
+                            console.log('Google analytics is ready now');
+                            this.ga.trackEvent(
+                                'Reservas',
+                                'crear',
+                                this.authService.userLogged.establishmentName +
+                                ' / ' +
+                                this.authService.establishmentId +
+                                ' / ' +
+                                lesson.disciplineName,
+                                success.length
+                            );
+                        })
+                        .catch(e => console.log('Error starting GoogleAnalytics', e));
+                } else {
+                    let alert = this.alertCtrl.create({
+                        title: `<h6 class="title-booking">` + 'No se pudieron crear las reservas' + `</h6>`,
+                        message: 'Por favor revisa si tienes sesiones disponibles y si existen las clases solicitadas',
+                        buttons: ['OK']
+                    });
+                    alert.present();
+                }
+            },
+            error => {
+                this.loading.dismiss();
+                let alert = this.alertCtrl.create({
+                    title:
+                    `<img src="assets/images/sad-face.png" class="icon-booking"><h6 class="title-booking">` + 'Uyyy' + `</h6>`,
+                    message: 'No se pudieron crear las reservas',
+                    buttons: ['OK']
+                });
+                alert.present();
+            }
+        );
     }
 
     successReserve(titleAlert, messageAlert){

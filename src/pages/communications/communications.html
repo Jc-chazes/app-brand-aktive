@@ -1,0 +1,105 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Comunicaciones</ion-title>
+    </ion-navbar>
+    <ion-toolbar *ngIf="statusShowNews">
+        <ion-segment [(ngModel)]="segment">
+            <ion-segment-button value="news">
+                Noticias
+            </ion-segment-button>
+            <ion-segment-button value="notifications">
+                Notificaciones
+            </ion-segment-button>
+        </ion-segment>
+    </ion-toolbar>
+</ion-header>
+<ion-content [ngSwitch]="segment" *ngIf="statusShowNews">
+    <div *ngSwitchCase="'news'">
+        <ion-slides pager *ngIf="listNews.length > 0">
+            <ion-slide class="box-slide" *ngFor="let boxnew of listNews">
+                <div class="box-new">
+                    <div class="box-text">
+                        <h4>{{boxnew.title}}</h4>
+                        <p>{{boxnew.description}}</p>
+                        <a href="{{boxnew.link}}" *ngIf="boxnew.link">{{boxnew.link}}</a>
+                    </div>
+                    <div class="box-img">
+                        <img src="{{boxnew.urlFile}}">
+                    </div>
+                </div>
+            </ion-slide>
+        </ion-slides>
+        <div *ngIf="listNews.length == 0">
+            <div class="box-message">
+                <div>
+                    <p>Todavía no hay noticias</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngSwitchCase="'notifications'">
+        <ion-grid *ngIf="thereAreNotifications">
+            <ion-row class="each-row" *ngFor="let notify of listNotifications; let ind = index">
+                <ion-col col-2>
+                    <div class="circle">
+                        <p>{{notify.title.slice(0,1)}}</p>
+                    </div>
+                </ion-col>
+                <ion-col col-10 [ngClass]="{'new-message': notify.read_user == null}">
+                    <div class="div-text">
+                        <p class="p-title">{{notify.title}}</p>
+                        <p [ngClass]="{
+            'p-text': true,
+            'fontsize-10': notify.text.length > 300}">{{notify.text}}</p>
+                    </div>
+                    <div class="date">
+                        <p>{{notify.timeAgo}}</p>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        <ion-grid *ngIf="!thereAreNotifications">
+            <ion-row class="box-message">
+                <div>
+                    <p>Todavía no tienes notificaciones</p>
+                </div>
+            </ion-row>
+        </ion-grid>
+        <ion-infinite-scroll (ionInfinite)="getNotifications($event)">
+            <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+    </div>
+</ion-content>
+
+<ion-content *ngIf="!statusShowNews">
+    <ion-grid *ngIf="thereAreNotifications">
+        <ion-row class="each-row" *ngFor="let notify of listNotifications; let ind = index">
+            <ion-col col-2>
+                <div class="circle">
+                    <p>{{notify.title.slice(0,1)}}</p>
+                </div>
+            </ion-col>
+            <ion-col col-10 [ngClass]="{'new-message': notify.read_user == null}">
+                <div class="div-text">
+                    <p class="p-title">{{notify.title}}</p>
+                    <p [ngClass]="{
+            'p-text': true,
+            'fontsize-10': notify.text.length > 300}">{{notify.text}}</p>
+                </div>
+                <div class="date">
+                    <p>{{notify.timeAgo}}</p>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-grid *ngIf="!thereAreNotifications">
+        <ion-row class="box-message">
+            <div>
+                <p>Todavía no tienes notificaciones</p>
+            </div>
+        </ion-row>
+    </ion-grid>
+    <ion-infinite-scroll (ionInfinite)="getNotifications($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>

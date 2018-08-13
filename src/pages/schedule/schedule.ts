@@ -229,7 +229,12 @@ export class SchedulePage {
     /*VIEW WILL ENTER - VIEW WILL LEAVE*/
 
     ionViewWillEnter(){
-        this.renderWeek(this.today);
+        if( this.week[3].date == null ) {
+            this.renderWeek(this.today);
+        } else {
+            this.renderWeek(this.week[3].date);
+        }
+
         this.getRequirements();
     }
 

@@ -3,7 +3,7 @@ import { Tabs, Events } from 'ionic-angular';
 import {SchedulePage} from "../schedule/schedule";
 import {ShopPage} from "../shop/shop";
 import {HomePage} from '../home/home';
-import {NotificationsPage} from '../notifications/notifications';
+import {CommunicationsPage} from "../communications/communications";
 import {ManagmentPage} from "../managment/managment";
 // para el manejo de las notificaciones
 declare var Pusher: any;
@@ -19,7 +19,7 @@ export class TabsPage {
     tab1Root = SchedulePage;
     tab2Root = ShopPage;
     tab3Root = HomePage;
-    tab4Root = NotificationsPage;
+    tab4Root = CommunicationsPage;
     tab5Root = ManagmentPage;
     pusher: any;
     cont = 0;

@@ -9,6 +9,8 @@ export class AuthService {
     userLogged : any;
     establishmentId: number;
     userId: number;
+    statusPhysicalConditionsRegister: string;
+    statusSchedule: string;
 
     constructor(
         private http : HttpClient,
@@ -79,6 +81,17 @@ export class AuthService {
 
         let url = this.appService.gateway + "/api/users/hjkaaavdk/thptxytyj";
         let data = { msg: "#fw/$^8*eihf7732e"};
+        let headers = new HttpHeaders({
+            'Content-Type':  'application/json',
+            'Authorization': token
+        });
+
+        return this.http.post(url, data, {headers:headers});
+    }
+
+    public verifyStatus(data) {
+        let url = this.appService.gateway + '/auth/app-verify-status';
+        let token = localStorage.getItem('id_token');
         let headers = new HttpHeaders({
             'Content-Type':  'application/json',
             'Authorization': token

@@ -39,6 +39,7 @@ import { ProfilePage } from "../pages/profile/profile";
 import { EditProfilePage } from "../pages/edit-profile/edit-profile";
 import { SettingsPage } from "../pages/settings/settings";
 import { PasswordPage } from "../pages/password/password";
+import { CommunicationsPage } from "../pages/communications/communications";
 
 /*Services*/
 import { AppService } from "../services/app.service";
@@ -60,6 +61,7 @@ import { ProductsService } from "../services/products.service";
 import { DebtsService } from "../services/debts.service";
 import { EstablishmentsService } from "../services/establishments.service";
 import { NotificationsService } from "../services/notifications.service";
+import { CommunicationsService } from "../services/communications.service";
 
 /*Tools*/
 import { HttpClientModule} from "@angular/common/http";
@@ -103,7 +105,8 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
         SearcherPage,
         SignupPage,
         HomePage,
-        TabsPage
+        TabsPage,
+        CommunicationsPage
     ],
     imports: [
         BrowserModule,
@@ -145,7 +148,8 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
         SearcherPage,
         SignupPage,
         HomePage,
-        TabsPage
+        TabsPage,
+        CommunicationsPage
     ],
     providers: [
         StatusBar,
@@ -173,6 +177,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
         DebtsService,
         EstablishmentsService,
         NotificationsService,
+        CommunicationsService,
         {provide: ErrorHandler, useClass: IonicErrorHandler}
     ]
 })

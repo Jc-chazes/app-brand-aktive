@@ -53,14 +53,8 @@ export class MyApp {
             this.establishmentService.establishmentsByUser = JSON.parse(localStorage.getItem('userEstablishments'));
             this.establishmentService.selectedEstablishmentId = localStorage.getItem('establishmentSelected');
 
-            this.ga.startTrackerWithId('UA-76827860-10')
-                .then(() => {
-                    console.log('Google analytics is ready now');
-                    this.ga.trackEvent('Usuario', 'recurrente', this.authService.userLogged.establishmentName +' / '+ this.authService.establishmentId);
-                })
-                .catch(e => console.log('Error starting GoogleAnalytics', e));
-
             this.rootPage = TabsPage;
+            this.verifyUser(this.authService.userLogged.email, this.authService.establishmentId);
         }
         else{
             this.rootPage = LoginPage;
@@ -114,6 +108,38 @@ export class MyApp {
             console.log('Hay un error');
             this.authService.logout();
         }
+    }
+
+    verifyUser(email, establishmentId) {
+        this.authService.verifyStatus({email, establishmentId})
+            .subscribe(
+                (success: any) => {
+                    this.authService.statusPhysicalConditionsRegister =  success.data[0].statusPhysicalConditionsRegister;
+                    this.authService.statusSchedule = success.data[0].statusSchedule;
+
+                    localStorage.setItem('statusPhysicalConditionsRegister', success.data[0].statusPhysicalConditionsRegister);
+                    localStorage.setItem('statusSchedule', success.data[0].statusSchedule);
+                    localStorage.setItem('statusWaitingList', success.data[0].statusWaitingList);
+                    localStorage.setItem('statusUploadPhotoProgress', success.data[0].statusUploadPhotoProgress);
+                    localStorage.setItem('statusRatingLessons', success.data[0].statusRatingLessons);
+                    localStorage.setItem('statusShareBD', success.data[0].shareBd);
+                    localStorage.setItem('orgEstablishments', success.data[0].orgEstablishments);
+                    localStorage.setItem('statusNews', success.data[0].statusNews);
+                    this.ga.startTrackerWithId('UA-76827860-10')
+                        .then(() => {
+                            console.log('Google analytics is ready now');
+                            this.ga.trackEvent('Usuario', 'recurrente', this.authService.userLogged.establishmentName + ' / ' + this.authService.establishmentId);
+                        })
+                        .catch(e => console.log('Error starting GoogleAnalytics', e));
+                },
+                error => {
+                    let err = error.error;
+                    if(err.title == 'USER_NO_FOUND') {
+                        this.authService.logout();
+                        this.rootPage = LoginPage;
+                    }
+                }
+            )
     }
 
 }

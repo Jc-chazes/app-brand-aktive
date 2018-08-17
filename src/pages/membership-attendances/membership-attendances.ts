@@ -34,7 +34,7 @@ export class MembershipAttendancesPage {
 
         this.attendancesService.getAttendancesByMembership(membership.id)
             .subscribe(
-                success =>{
+                (success: any) => {
                     let data = success;
 
                     if(data.length > 0){

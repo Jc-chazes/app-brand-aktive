@@ -1,5 +1,10 @@
 <ion-header>
     <ion-toolbar>
+        <ion-buttons start>
+            <button ion-button (tap)="goToQrCode()">
+                <img src="assets/images/qr-code.png" alt="">
+            </button>
+        </ion-buttons>
         <ion-title>Mi Información</ion-title>
         <ion-buttons end>
             <button ion-button (tap)="viewSettings()">

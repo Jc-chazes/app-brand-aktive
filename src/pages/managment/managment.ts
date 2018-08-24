@@ -9,7 +9,7 @@ import {SettingsPage} from "../settings/settings";
 import {ProfilePage} from "../profile/profile";
 import {UserService} from "../../services/user.service";
 import {GoogleAnalytics} from "@ionic-native/google-analytics";
-
+import {QrCodePage} from "../qr-code/qr-code";
 @Component({
     selector: 'page-managment',
     templateUrl: 'managment.html'
@@ -88,6 +88,9 @@ export class ManagmentPage {
         this.navCtrl.push(DebtsPage);
     }
 
+    goToQrCode(){
+      this.navCtrl.push(QrCodePage);
+    }
     showLoading() {
         this.loading = this.loadingCtrl.create({
             content: 'Un momento...',

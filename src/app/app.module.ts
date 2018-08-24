@@ -40,7 +40,7 @@ import { EditProfilePage } from "../pages/edit-profile/edit-profile";
 import { SettingsPage } from "../pages/settings/settings";
 import { PasswordPage } from "../pages/password/password";
 import { CommunicationsPage } from "../pages/communications/communications";
-
+import { QrCodePage } from "../pages/qr-code/qr-code";
 /*Services*/
 import { AppService } from "../services/app.service";
 import { AuthService } from "../services/auth.service";
@@ -70,7 +70,7 @@ import { Push } from '@ionic-native/push';
 import { Camera } from '@ionic-native/camera';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { LocalNotifications } from '@ionic-native/local-notifications';
-
+import { NgxQRCodeModule } from 'ngx-qrcode2';
 @NgModule({
     declarations: [
         MyApp,
@@ -106,12 +106,14 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
         SignupPage,
         HomePage,
         TabsPage,
-        CommunicationsPage
+        CommunicationsPage,
+        QrCodePage,
     ],
     imports: [
         BrowserModule,
         HttpClientModule,
         ChartsModule,
+        NgxQRCodeModule,
         IonicModule.forRoot(MyApp)
     ],
     bootstrap: [IonicApp],
@@ -149,7 +151,8 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
         SignupPage,
         HomePage,
         TabsPage,
-        CommunicationsPage
+        CommunicationsPage,
+        QrCodePage,
     ],
     providers: [
         StatusBar,

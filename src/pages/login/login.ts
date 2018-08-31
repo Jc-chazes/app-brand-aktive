@@ -62,7 +62,7 @@ export class LoginPage {
 
                         if(success.data.length > 0){
                             localStorage.setItem( 'id_token', success.token);
-
+                            localStorage.setItem('QR', success.data[0].QRApp);
                             if(success.data.length == 1){
 
                                 console.log('EST', success.data[0].establishmentId);

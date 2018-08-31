@@ -125,6 +125,7 @@ export class MyApp {
                     localStorage.setItem('statusShareBD', success.data[0].shareBd);
                     localStorage.setItem('orgEstablishments', success.data[0].orgEstablishments);
                     localStorage.setItem('statusNews', success.data[0].statusNews);
+                    localStorage.setItem('QR', success.data[0].QRApp);
                     this.ga.startTrackerWithId('UA-76827860-10')
                         .then(() => {
                             console.log('Google analytics is ready now');

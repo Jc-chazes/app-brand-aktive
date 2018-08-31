@@ -18,7 +18,7 @@ export class ManagmentPage {
 
     user : any;
     loading: Loading;
-
+    QR: boolean;
     constructor(
         public ga: GoogleAnalytics,
         public navCtrl: NavController,
@@ -57,6 +57,7 @@ export class ManagmentPage {
     }
 
     ionViewWillEnter(){
+      this.QR = localStorage.getItem('QR') == 'Y' ? true : false;
         this.getDataUser();
     }
 

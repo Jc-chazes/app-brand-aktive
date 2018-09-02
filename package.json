@@ -30,13 +30,14 @@
     "@ionic/storage": "2.1.3",
     "cordova-plugin-badge": "^0.8.7",
     "cordova-plugin-camera": "^4.0.3",
-    "cordova-plugin-device": "2.0.2",
-    "cordova-plugin-google-analytics": "^1.8.3",
-    "cordova-plugin-ionic": "^4.1.7",
-    "cordova-plugin-ionic-keyboard": "^2.0.5",
-    "cordova-plugin-ionic-webview": "^1.1.19",
+    "cordova-plugin-device": "^2.0.2",
+    "cordova-plugin-file": "^6.0.1",
+    "cordova-plugin-google-analytics": "^1.8.6",
+    "cordova-plugin-ionic": "^4.2.0",
+    "cordova-plugin-ionic-keyboard": "^2.1.2",
+    "cordova-plugin-ionic-webview": "^2.1.0",
     "cordova-plugin-local-notification": "^0.9.0-beta.2",
-    "cordova-plugin-splashscreen": "5.0.2",
+    "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-whitelist": "^1.3.3",
     "ionic-angular": "3.9.2",
     "ionicons": "3.0.0",
@@ -54,12 +55,19 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-camera": {},
-      "cordova-plugin-google-analytics": {},
+      "cordova-plugin-google-analytics": {
+        "GMS_VERSION": "11.0.1"
+      },
       "cordova-plugin-local-notification": {},
       "cordova-plugin-ionic": {
         "APP_ID": "7fac37ee",
         "CHANNEL_NAME": "Production",
-        "UPDATE_METHOD": "auto"
+        "UPDATE_METHOD": "auto",
+        "WARN_DEBUG": "true",
+        "UPDATE_API": "https://api.ionicjs.com",
+        "MAX_STORE": "2",
+        "ROLLBACK_TIMEOUT": "10",
+        "MIN_BACKGROUND_DURATION": "30"
       },
       "cordova-plugin-whitelist": {},
       "cordova-plugin-device": {},

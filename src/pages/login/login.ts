@@ -70,7 +70,7 @@ export class LoginPage {
 
                                 if(success.data[0].establishmentId == this.appService.setEstablishmentId){
                                     localStorage.setItem('userLogged',JSON.stringify(success.data[0]));
-
+                                    localStorage.setItem('QR', success.data[0].QRApp);
                                     this.authService.userLogged = success.data[0];
                                     this.authService.establishmentId = success.data[0].establishmentId;
                                     this.authService.userId = success.data[0].id;
@@ -100,7 +100,7 @@ export class LoginPage {
                                     if(elem.establishmentId == this.appService.setEstablishmentId){
 
                                         localStorage.setItem('userLogged',JSON.stringify(elem));
-
+                                        localStorage.setItem('QR', elem.QRApp);
                                         this.authService.userLogged = elem;
                                         this.authService.establishmentId = elem.establishmentId;
                                         this.authService.userId = elem.id;

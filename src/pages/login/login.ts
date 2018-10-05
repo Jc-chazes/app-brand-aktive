@@ -5,6 +5,8 @@ import {AuthService} from "../../services/auth.service";
 import {AppService} from "../../services/app.service";
 import {SignupPage} from "../signup/signup";
 import {GoogleAnalytics} from '@ionic-native/google-analytics';
+import { NotificationsService } from '../../services/notifications.service';
+import { AppStateService } from '../../services/app-state.service';
 
 @Component({
     selector: 'page-login',
@@ -24,7 +26,9 @@ export class LoginPage {
         private alertCtrl: AlertController,
         private authService: AuthService,
         private appService: AppService,
-        public ga: GoogleAnalytics) {
+        public ga: GoogleAnalytics,
+        private notificationsService: NotificationsService,
+        private appStateService: AppStateService) {
 
         this.ga.startTrackerWithId('UA-76827860-10')
             .then(() => {
@@ -74,6 +78,24 @@ export class LoginPage {
                                     this.authService.userLogged = success.data[0];
                                     this.authService.establishmentId = success.data[0].establishmentId;
                                     this.authService.userId = success.data[0].id;
+                                    localStorage.setItem('statusLimitMembershipTest', success.data[0].statusLimitMembershipTest);
+                                    localStorage.setItem('statusNotificationMobile', success.data[0].statusNotificationMobile);
+                                    if(success.data[0].statusNotificationMobile == 'Y'){
+                                      this.notificationsService.getUnreadNotifications()
+                                      .subscribe(
+                                          success => {
+
+                                            localStorage.setItem('unreadNotificationsCount', success.unread);
+                                            this.appStateService.setState({
+                                              notifications: {
+                                                unreadCount: success.unread
+                                            } });
+                                          },
+                                          error => {
+                                              let err = error.json();
+
+                                          });
+                                    }
 
                                     this.ga.startTrackerWithId('UA-76827860-10')
                                         .then(() => {
@@ -127,6 +149,9 @@ export class LoginPage {
                         }
                     },
                     error=>{
+                        
+                        window.alert(JSON.stringify(error));
+
                         this.loading.dismiss();
 
                         let err = error.error;

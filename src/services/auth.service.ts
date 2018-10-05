@@ -27,7 +27,6 @@ export class AuthService {
         let headers = new HttpHeaders();
         headers.append('Content-Type', 'application/json');
         headers.append('Access-Control-Allow-Origin', '*');
-
         return this.http.post<Login>(url, auth, {headers: headers});
     }
 

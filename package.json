@@ -21,22 +21,26 @@
     "@angular/platform-browser": "5.2.11",
     "@angular/platform-browser-dynamic": "5.2.11",
     "@ionic-native/camera": "4.11.0",
-    "@ionic-native/core": "4.11.0",
+    "@ionic-native/core": "^4.12.2",
+    "@ionic-native/device": "^4.15.0",
+    "@ionic-native/firebase": "^4.15.0",
     "@ionic-native/google-analytics": "4.11.0",
     "@ionic-native/local-notifications": "4.11.0",
     "@ionic-native/push": "4.11.0",
     "@ionic-native/splash-screen": "4.11.0",
     "@ionic-native/status-bar": "4.11.0",
     "@ionic/storage": "2.1.3",
-    "cordova-android": "^7.1.0",
+    "cordova-android": "7.0.0",
+    "cordova-android-firebase-gradle-release": "^1.0.2",
+    "cordova-android-play-services-gradle-release": "^1.4.3",
+    "cordova-custom-config": "^5.0.2",
     "cordova-plugin-badge": "^0.8.7",
     "cordova-plugin-camera": "^4.0.3",
     "cordova-plugin-device": "^2.0.2",
-    "cordova-plugin-file": "^6.0.1",
+    "cordova-plugin-firebase": "^2.0.4",
     "cordova-plugin-google-analytics": "^1.8.6",
-    "cordova-plugin-ionic": "^4.2.0",
-    "cordova-plugin-ionic-keyboard": "^2.1.2",
-    "cordova-plugin-ionic-webview": "^2.1.0",
+    "cordova-plugin-ionic-keyboard": "^2.1.3",
+    "cordova-plugin-ionic-webview": "^2.1.4",
     "cordova-plugin-local-notification": "^0.9.0-beta.2",
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-whitelist": "^1.3.3",
@@ -59,24 +63,24 @@
     "plugins": {
       "cordova-plugin-camera": {},
       "cordova-plugin-google-analytics": {
-        "GMS_VERSION": "11.0.1"
+        "GMS_VERSION": "12.0.0"
       },
       "cordova-plugin-local-notification": {},
-      "cordova-plugin-ionic": {
-        "APP_ID": "7fac37ee",
-        "CHANNEL_NAME": "Production",
-        "UPDATE_METHOD": "auto",
-        "WARN_DEBUG": "true",
-        "UPDATE_API": "https://api.ionicjs.com",
-        "MAX_STORE": "2",
-        "ROLLBACK_TIMEOUT": "10",
-        "MIN_BACKGROUND_DURATION": "30"
-      },
-      "cordova-plugin-whitelist": {},
       "cordova-plugin-device": {},
-      "cordova-plugin-splashscreen": {},
-      "cordova-plugin-ionic-webview": {},
-      "cordova-plugin-ionic-keyboard": {}
+      "cordova-plugin-ionic-webview": {
+        "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
+      },
+      "cordova-plugin-ionic-keyboard": {},
+      "cordova-android-firebase-gradle-release": {
+        "FIREBASE_VERSION": "12.0.0"
+      },
+      "cordova-android-play-services-gradle-release": {
+        "PLAY_SERVICES_VERSION": "12.0.0"
+      },
+      "cordova-custom-config": {},
+      "cordova-plugin-firebase": {},
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-splashscreen": {}
     },
     "platforms": [
       "android"

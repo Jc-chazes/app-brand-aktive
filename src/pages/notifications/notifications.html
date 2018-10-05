@@ -6,18 +6,25 @@
   </ion-navbar>
 </ion-header>
 
+
 <ion-content>
-  <ion-grid *ngIf="thereAreNotifications">
-    <ion-row class="each-row" *ngFor="let notify of listNotifications; let ind = index">
+  <ion-grid *ngIf="thereAreNotifications || searchWord">
+      <ion-searchbar (ionInput)="getNotifications()" (ionClear)="clearNotification($event)" placeholder="Buscar notificaciones" [(ngModel)]="searchWord">
+        </ion-searchbar>
+    <ion-row class="each-row" *ngFor="let notify of listNotifications; let i = index" (click)="toggleGroup(i)" [ngClass]="{active: isGroupShown(i)}">
       <ion-col col-2>
         <div class="circle">
           <p>{{notify.title.slice(0,1)}}</p>
         </div>
       </ion-col>
-      <ion-col col-10 [ngClass]="{'new-message': notify.read_user == null}">
+      <ion-col col-10 [ngClass]="{'new-message': notify.statusNtUser == '0'}">
         <div class="div-text">
-          <p class="p-title">{{notify.title}}</p>
-          <p [ngClass]="{
+            <p class="p-title">{{notify.title}}
+                <ion-icon color="success"  item-right [name]="isGroupShown(i) ? 'arrow-dropdown' : 'arrow-dropright'">
+                  </ion-icon>
+            </p>
+
+          <p *ngIf="isGroupShown(i)"  [ngClass]="{
             'p-text': true,
             'fontsize-10': notify.text.length > 300}">{{notify.text}}</p>
         </div>
@@ -41,3 +48,6 @@
 
 
 </ion-content>
+
+
+

@@ -3,6 +3,7 @@ import {NavController} from 'ionic-angular';
 import {NotificationsService} from './../../services/notifications.service';
 import {GoogleAnalytics} from "@ionic-native/google-analytics";
 import * as moment from "moment";
+import { AppStateService } from '../../services/app-state.service';
 
 @Component({
     selector: 'page-notifications',
@@ -13,10 +14,12 @@ export class NotificationsPage {
     thereAreNotifications: boolean;
     listNotifications = [];
     posInitial = 1;
-
+    searchWord = '';
+    shownGroup = null;
     constructor(public navCtrl: NavController,
                 private notificationsService: NotificationsService,
-                public ga: GoogleAnalytics) {
+                public ga: GoogleAnalytics,
+                private appState: AppStateService) {
 
         moment.locale('es', {
             relativeTime: {
@@ -36,22 +39,32 @@ export class NotificationsPage {
                 yy: '%d años'
             }
         });
-        this.ga.startTrackerWithId('UA-76827860-10')
+    }
+
+    ionViewDidEnter(){
+        this.ga.startTrackerWithId('UA-76827860-8')
             .then(() => {
                 console.log('Google analytics is ready now');
                 this.ga.trackView('notificationsPage');
             })
             .catch(e => console.log('Error starting GoogleAnalytics', e));
+        this.notificationsService.getUnreadNotifications().subscribe();
     }
 
     ionViewWillEnter() {
+        this.posInitial = 1;
+        this.searchWord = null;
+        this.listNotifications = [];
         this.getNotifications();
     }
 
     getNotifications(infiniteScroll?) {
-        this.notificationsService.getNotifications(this.posInitial)
+        // this.listNotifications = [];
+        this.listNotifications =  this.searchWord != null && this.searchWord != undefined ?  [] : this.listNotifications;
+        this.posInitial = this.searchWord != null && this.searchWord != undefined ? 1 : this.posInitial ;
+        this.notificationsService.getNotifications(this.posInitial,this.searchWord)
             .subscribe(
-                success => {
+                (success: any) => {
                     if (success.length != 0) {
                         this.posInitial++;
                         this.thereAreNotifications = true;
@@ -88,4 +101,87 @@ export class NotificationsPage {
     }
 
 
-}
+    searchNotification(ev: any,infiniteScroll?){
+      let val = ev.target.value;
+      this.listNotifications = [];
+      this.posInitial = 1;
+      if(val){
+        this.notificationsService.searchNotification(val)
+        .subscribe(
+            (response: any) =>{
+
+              if (response.length != 0) {
+                this.posInitial++;
+                this.thereAreNotifications = true;
+                if(this.posInitial <= 1){
+                    this.listNotifications = [];
+                }
+                for (let notify of response) {
+                    notify.timeAgo = moment(notify.insDate).fromNow();
+                    this.listNotifications.push(notify);
+                }
+                if (infiniteScroll) {
+                    infiniteScroll.complete();
+                    console.log(this.listNotifications);
+                }
+            }
+            else {
+                if (this.listNotifications.length < 1) {
+                    this.thereAreNotifications = false;
+                } else {
+                    this.thereAreNotifications = true;
+                }
+                if (infiniteScroll) {
+                    infiniteScroll.complete();
+                }
+            }
+
+
+            },
+            error =>{
+            }
+        )
+      }else{
+
+        this.getNotifications();
+      }
+    }
+
+    clearNotification(ev: any){
+      this.posInitial = 1;
+      this.listNotifications = [];
+
+    }
+
+    toggleGroup(group) {
+
+        if (this.isGroupShown(group)) {
+            this.shownGroup = null;
+        } else {
+            this.shownGroup = group;
+            if(this.listNotifications[group].statusNtUser == '0'){
+              if(localStorage.getItem('statusNotificationMobile') == 'Y'){
+                this.notificationsService.updateNotificationStatus(this.listNotifications[group].notificationUserId)
+                .subscribe(
+                    success => {
+                      this.notificationsService.decrementUnreadCounter();
+                      this.listNotifications[group].statusNtUser = '1';
+                    },
+                    error => {
+
+
+                    });
+              }
+            }
+        }
+
+
+    }
+
+
+    isGroupShown(group) {
+        return this.shownGroup === group;
+    }
+
+
+  }

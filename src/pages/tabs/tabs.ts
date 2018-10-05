@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import { Tabs, Events } from 'ionic-angular';
+import { Tabs, Events, Platform } from 'ionic-angular';
 import {SchedulePage} from "../schedule/schedule";
 import {ShopPage} from "../shop/shop";
 import {HomePage} from '../home/home';
@@ -10,6 +10,10 @@ declare var Pusher: any;
 import {LocalNotifications} from '@ionic-native/local-notifications';
 import {AuthService} from "./../../services/auth.service";
 import {NavController} from 'ionic-angular';
+import { NavigationService } from '../../services/navigation.service';
+import { AppStateService } from '../../services/app-state.service';
+import { DevicesService } from '../../services/devices.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     templateUrl: 'tabs.html'
@@ -26,22 +30,50 @@ export class TabsPage {
     urlNotification = "";
     notificationCount = 0;
 
+    navigationSub: Subscription;
+    get allowNotifications(): boolean{
+      return localStorage.getItem('statusNotificationMobile') == 'Y' ? true : false;
+    }
+    
+    @ViewChild("tabs") tabs: Tabs;
+
     @ViewChild("nametab") nametab: Tabs;
 
     constructor(private localNotifications: LocalNotifications,
                 public navCtrl: NavController,
                 public events: Events,
-                private authService: AuthService) {
+                private authService: AuthService,
+                private appStateService: AppStateService,
+                private devices: DevicesService,
+                private navigation: NavigationService,
+                private platform: Platform) {
 
-        this.notificationCount = localStorage.getItem('countNotification') == null ? 0 : parseInt(localStorage.getItem('countNotification'));
-        this.notificationManager();
+        // this.notificationCount = localStorage.getItem('countNotification') == null ? 0 : parseInt(localStorage.getItem('countNotification'));
+        // this.notificationManager();
+        this.appStateService.onStateChange.subscribe( state => {
+            this.notificationCount = state.notifications.unreadCount == 0 ? null : state.notifications.unreadCount;
+        });
+        this.appStateService.setState({
+        notifications: {
+            unreadCount: localStorage.getItem('unreadNotificationsCount')
+        } });
+        this.navigationSub = navigation.onNavigate.subscribe( tabIndex => {
+              if(tabIndex != null){
+                  this.tabs.select(tabIndex);
+              }
+        })
     }
 
     ionViewDidLoad(){
-        this.events.subscribe('gototab', () => {
-            console.log('CHAU');
-            this.nametab.select(2);
+        this.platform.ready().then( () => {
+            if(this.allowNotifications){
+                this.devices.populate().subscribe();
+            }
         })
+        // this.events.subscribe('gototab', () => {
+        //     console.log('CHAU');
+        //     this.nametab.select(2);
+        // })
     }
 
 
@@ -81,6 +113,10 @@ export class TabsPage {
     cleanNotifications() {
         this.notificationCount = 0;
         localStorage.setItem("countNotification", `0`)
+    }
+
+    ionViewDidLeave(){
+        this.navigationSub.unsubscribe();
     }
 
 

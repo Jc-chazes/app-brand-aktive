@@ -1,8 +1,8 @@
 {
   "name": "mapana",
-  "app_id": "7fac37ee",
-  "type": "ionic-angular",
   "integrations": {
     "cordova": {}
-  }
+  },
+  "type": "ionic-angular",
+  "pro_id": "7fac37ee"
 }

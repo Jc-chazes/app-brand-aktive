@@ -4,6 +4,7 @@ import {AuthService} from "./auth.service";
 import {Establishment} from "../models/establishment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import 'rxjs/add/operator/map';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class EstablishmentsService {
@@ -14,6 +15,11 @@ export class EstablishmentsService {
         keyPublic : "",
         keyPrivate : "",
     };
+    private currentEstablishmentSubject = new BehaviorSubject<Establishment>( new Establishment() );
+    public currentEstablishmentRx = this.currentEstablishmentSubject.asObservable();
+    public get currentEstablishment(): Establishment{
+      return this.currentEstablishmentSubject.value;
+    }
 
     constructor(
         private http: HttpClient,

@@ -357,6 +357,9 @@ export class SchedulePage {
                         case "ERROR_DB_BODY":
                             message = "Uy... hubo un problema de conexión. Por favor inténtalo nuevamente";
                             break;
+                        case 'RESERVES.ERROR_LOGINONSITE_LIMIT_REACHED':
+                            message = 'Se ha alcanzado el límite de reservas para su membresía adquirida bajo la modalidad de pago presencial.'
+                            break;
                     }
 
                     let alert = this.alertCtrl.create({

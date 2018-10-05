@@ -76,7 +76,7 @@ export class CommunicationsPage {
     public getNotifications(infiniteScroll?) {
         this.notificationsService.getNotifications(this.posInitial)
             .subscribe(
-                success => {
+                (success: any) => {
                     if (success.length != 0) {
                         this.posInitial++;
                         this.thereAreNotifications = true;

@@ -71,6 +71,19 @@ import { Camera } from '@ionic-native/camera';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
+import { AppStateService } from '../services/app-state.service';
+import { NavigationService } from '../services/navigation.service';
+
+/*Observable extensions*/
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/catch';
+import { DevicesService } from '../services/devices.service';
+import { Firebase } from '@ionic-native/firebase';
+import { Device } from '@ionic-native/device';
+
 @NgModule({
     declarations: [
         MyApp,
@@ -181,7 +194,12 @@ import { NgxQRCodeModule } from 'ngx-qrcode2';
         EstablishmentsService,
         NotificationsService,
         CommunicationsService,
-        {provide: ErrorHandler, useClass: IonicErrorHandler}
+        {provide: ErrorHandler, useClass: IonicErrorHandler},
+        NavigationService,
+        AppStateService,
+        DevicesService,
+        Firebase,
+        Device
     ]
 })
 export class AppModule {}

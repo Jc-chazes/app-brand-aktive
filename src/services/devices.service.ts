@@ -46,6 +46,7 @@ export class DevicesService {
                 const perm = await this.firebaseNative.grantPermission();
             } 
             if (!this.platform.is('cordova')) {
+                window.alert(token)
             }
         }catch(err){
             alert(`Error obteniendo token: ${err}`);
